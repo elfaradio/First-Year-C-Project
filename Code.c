@@ -118,11 +118,7 @@ void hidePasswordInput(char *password)
     while (i < MAX_PASSWORD_LENGTH - 1)
     {
         char ch = getch(); // Read a single character without echoing it to the console
-        if (ch == '\r')
-        {                       // If Enter is pressed
-            password[i] = '\0'; // Null-terminate the password string
-            break;
-        }
+        if (ch == '\r') break;
         else if (ch == '\b' && i > 0)
         {                    // If Backspace is pressed
             printf("\b \b"); // Erase the last character from the console
@@ -138,6 +134,7 @@ void hidePasswordInput(char *password)
     printf("\n");
     password[i] = '\0'; // Null-terminate the password string
 }
+
 
 void setcolor(int ForgC) /// for COLOR
 {
@@ -176,14 +173,12 @@ void keysound()
     PlaySound(TEXT("button.WAV"), NULL, SND_SYNC);
 }
 
-void remove_string(char n[10000])
+
+
+
+void remove_string(char n[])
 {
-    int i = 0;
-    while (n[i] != '\0')
-    {
-        n[i] = '\0';
-        i++;
-    }
+    n[0]='\0';
 }
 
 void remove_array(int m[1000], int len)
@@ -194,45 +189,34 @@ void remove_array(int m[1000], int len)
     }
 }
 
-int cordinate(double d)
-{
-    int dis = d;
 
-    if (dis < 5)
-    {
-        dis = 1;
-        dis += 2;
-    }
-    else
-    {
-        dis = dis / 5;
-        dis += 4;
-    }
-
-    return dis;
-}
-
-struct cchat
+struct cchat ///customer message
 {
     char nickname[100];
     int point;
 };
-struct cchat cmessage[10000];
+struct cchat cmessage[1000];
 
-struct ochat
+
+struct ochat  ///owner message
 {
     char nickname[100];
     int point;
 };
-struct ochat omessage[10000];
+struct ochat omessage[1000];
+
+
 
 struct hotal
 {
     char address[100];
-    double lat1;
-    double lon1;
+    double lat1,lon1;
+    char location[100];
+    char emailAddress[100];
+    char phone[20];
 };
-struct hotal h_address[10000];
+struct hotal h_address[1000];
+
 
 struct user_add
 {
@@ -240,7 +224,7 @@ struct user_add
     double lat2;
     double lon2;
 };
-struct user_add u_address[10000];
+struct user_add u_address[1000];
 
 struct customer
 {
@@ -252,12 +236,12 @@ struct customer
     char best_friend[50];
     char address1[1000];
 };
-struct customer cus[10000];
+struct customer cus[1000];
 
 struct owner
 {
-    int message;
-    int gorder;
+    int message; ///feedback
+    int gorder; ///feedback
     int border;
     char shop_name[100];
     char nickname[50];
@@ -284,26 +268,323 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
-void space(int a, int b)
+
+void HotelData(double s,char u_a[],char h_a[],double h_lit,double h_lon,char h_email[],char h_phone[],char h_location[])
 {
-    COORD position;
-    position.X = a;
-    position.Y = b;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), position);
+
+    char h_line = 254;
+    gotoxy(52,1);setcolor(6);
+    printf("-> FROM                  : %s",u_a);
+    gotoxy(52,3);setcolor(6);
+    printf("-> TO                    : %s",h_a);
+    gotoxy(52,5);setcolor(10);
+    printf("-> THE LITITUDE AND LONGTITUDE OF %s : ",h_a);
+    gotoxy(50,6);setcolor(14);
+                for(int i=0;i<61;i++)
+                    printf("%c",h_line);
+
+
+    gotoxy(52,7);setcolor(11);
+    printf("-> LITITUDE              : %lf",h_lit);
+    gotoxy(52,8);setcolor(11);
+    printf("-> LONGTITUDE            : %lf",h_lon);
+
+    gotoxy(50,10);setcolor(14);
+                for(int i=0;i<61;i++)
+                    printf("%c",h_line);
+    gotoxy(52,11);setcolor(10);
+    printf("-> contract : ");
+    gotoxy(50,12);setcolor(14);
+                for(int i=0;i<61;i++)
+                    printf("%c",h_line);
+    gotoxy(52,13);setcolor(11);
+    printf("-> EMAIL ADDRESS         : %s",h_email);
+    gotoxy(52,14);setcolor(11);
+    printf("-> PHONE NUMBER          : %s",h_phone);
+
+    gotoxy(50,16);setcolor(14);
+                for(int i=0;i<61;i++)
+                    printf("%c",h_line);
+    gotoxy(52,17);setcolor(10);
+    printf("-> ADDRESS : ");
+    gotoxy(50,18);setcolor(14);
+                for(int i=0;i<61;i++)
+                    printf("%c",h_line);
+    gotoxy(52,19);setcolor(11);
+    printf("-> LOCATION              : %s",h_location);
+    gotoxy(52,20);setcolor(11);
+    printf("-> DISTANCE BETWEEN THEM : %.2lf KM",s);
 }
 
-void clear(int n)
-{
-    for (int i = 0; i < n * 2; i++)
-    {
-        space(0, i);
-        printf("                                                                                                                                              \n                                                                                                                                             \n");
-    }
-    space(0, 0);
-}
 
 int main()
 {
+
+strcpy(h_address[48].location, "444_Mohammed_Ali,Chittagong");
+    strcpy(h_address[48].emailAddress, "ali.chittagong@example.com");
+    strcpy(h_address[48].phone, "01815877522");
+
+    strcpy(h_address[49].location, "Agrabad,Chittagong");
+    strcpy(h_address[49].emailAddress, "agrabad@example.com");
+    strcpy(h_address[49].phone, "01812345678");
+
+    strcpy(h_address[50].location, "Halishahar,Chittagong");
+    strcpy(h_address[50].emailAddress, "halishahar@example.com");
+    strcpy(h_address[50].phone, "01823456789");
+
+    strcpy(h_address[51].location, "GEC_Chittagong");
+    strcpy(h_address[51].emailAddress, "gec@example.com");
+    strcpy(h_address[51].phone, "01834567890");
+
+    strcpy(h_address[52].location, "Khatunganj,Chittagong");
+    strcpy(h_address[52].emailAddress, "khatunganj@example.com");
+    strcpy(h_address[52].phone, "01845678901");
+
+    strcpy(h_address[53].location, "Pahartali,Chittagong");
+    strcpy(h_address[53].emailAddress, "pahartali@example.com");
+    strcpy(h_address[53].phone, "01856789012");
+
+    strcpy(h_address[54].location, "Chawkbazar_Chittagong");
+    strcpy(h_address[54].emailAddress, "chawkbazar@example.com");
+    strcpy(h_address[54].phone, "01867890123");
+
+    strcpy(h_address[55].location, "Chandgaon,Chittagong");
+    strcpy(h_address[55].emailAddress, "chandgaon@example.com");
+    strcpy(h_address[55].phone, "01878901234");
+
+    strcpy(h_address[56].location, "Panchlaish,Chittagong");
+    strcpy(h_address[56].emailAddress, "panchlaish@example.com");
+    strcpy(h_address[56].phone, "01889012345");
+
+    strcpy(h_address[57].location, "Hathazari,Chittagong");
+    strcpy(h_address[57].emailAddress, "hathazari@example.com");
+    strcpy(h_address[57].phone, "01890123456");
+
+    strcpy(h_address[58].location, "Kotwali,Chittagong");
+    strcpy(h_address[58].emailAddress, "kotwali@example.com");
+    strcpy(h_address[58].phone, "01801234567");
+
+    strcpy(h_address[59].location, "Chittagong_University");
+    strcpy(h_address[59].emailAddress, "cu@example.com");
+    strcpy(h_address[59].phone, "01812345678");
+
+    strcpy(h_address[60].location, "Bakolia,Chittagong");
+    strcpy(h_address[60].emailAddress, "bakolia@example.com");
+    strcpy(h_address[60].phone, "01823456789");
+
+    strcpy(h_address[61].location, "Karnaphuli_EPZ,Chittagong");
+    strcpy(h_address[61].emailAddress, "kepz@example.com");
+    strcpy(h_address[61].phone, "01834567890");
+
+    strcpy(h_address[62].location, "Chittagong_Port");
+    strcpy(h_address[62].emailAddress, "port@example.com");
+    strcpy(h_address[62].phone, "01845678901");
+
+    strcpy(h_address[63].location, "Chittagong_Medical_College");
+    strcpy(h_address[63].emailAddress, "cmc@example.com");
+    strcpy(h_address[63].phone, "01856789012");
+
+    strcpy(h_address[64].location, "Faujdarhat_Cadet_College");
+    strcpy(h_address[64].emailAddress, "fcc@example.com");
+    strcpy(h_address[64].phone, "01867890123");
+
+    strcpy(h_address[65].location, "Agrabad_C/A,_Chittagong");
+    strcpy(h_address[65].emailAddress, "agradabad_ca@example.com");
+    strcpy(h_address[65].phone, "01878901234");
+
+    strcpy(h_address[66].location, "Chittagong_Hill_Tracts");
+    strcpy(h_address[66].emailAddress, "cht@example.com");
+    strcpy(h_address[66].phone, "01889012345");
+
+strcpy(h_address[24].location, "Oxygen");
+strcpy(h_address[24].emailAddress, "user18467@gmail.com");
+strcpy(h_address[24].phone, "01000000041");
+
+strcpy(h_address[25].location, "Shitoljorna");
+strcpy(h_address[25].emailAddress, "user26500@gmail.com");
+strcpy(h_address[25].phone, "01000006334");
+
+strcpy(h_address[26].location, "Baluchara");
+strcpy(h_address[26].emailAddress, "user4664@gmail.com");
+strcpy(h_address[26].phone, "01000017673");
+
+strcpy(h_address[27].location, "Kulgaon");
+strcpy(h_address[27].emailAddress, "user15724@gmail.com");
+strcpy(h_address[27].phone, "01000019169");
+
+strcpy(h_address[28].location, "Mirpur");
+strcpy(h_address[28].emailAddress, "user29358@gmail.com");
+strcpy(h_address[28].phone, "01000011478");
+
+strcpy(h_address[29].location, "Quaish");
+strcpy(h_address[29].emailAddress, "user24464@gmail.com");
+strcpy(h_address[29].phone, "801000026962");
+
+strcpy(h_address[30].location, "Bayezid");
+strcpy(h_address[30].emailAddress, "user28145@gmail.com");
+strcpy(h_address[30].phone, "01000005705");
+
+strcpy(h_address[31].location, "Hamidpur");
+strcpy(h_address[31].emailAddress, "user16827@gmail.com");
+strcpy(h_address[31].phone, "01000023281");
+
+strcpy(h_address[32].location, "Polytechnic");
+strcpy(h_address[32].emailAddress, "user491@gmail.com");
+strcpy(h_address[32].phone, "01000009961");
+
+strcpy(h_address[33].location, "2nogate");
+strcpy(h_address[33].emailAddress, "user11942@gmail.com");
+strcpy(h_address[33].phone, "01000002995");
+
+strcpy(h_address[34].location, "Muradpur");
+strcpy(h_address[34].emailAddress, "user5436@gmail.com");
+strcpy(h_address[34].phone, "01000004827");
+
+strcpy(h_address[35].location, "Atorardipu");
+strcpy(h_address[35].emailAddress, "user14604@gmail.com");
+strcpy(h_address[35].phone, "01000032391");
+
+strcpy(h_address[36].location, "Foyslake");
+strcpy(h_address[36].emailAddress, "user153@gmail.com");
+strcpy(h_address[36].phone, "01000003902");
+
+strcpy(h_address[37].location, "Nasirabad");
+strcpy(h_address[37].emailAddress, "user12382@gmail.com");
+strcpy(h_address[37].phone, "01000000292");
+
+strcpy(h_address[38].location, "Panchlaish");
+strcpy(h_address[38].emailAddress, "user18716@gmail.com");
+strcpy(h_address[38].phone, "01000017421");
+
+strcpy(h_address[39].location, "Maizpara");
+strcpy(h_address[39].emailAddress, "user19895@gmail.com");
+strcpy(h_address[39].phone, "01000019718");
+
+strcpy(h_address[40].location, "Shersah");
+strcpy(h_address[40].emailAddress, "user21726@gmail.com");
+strcpy(h_address[40].phone, "01000005447");
+
+strcpy(h_address[41].location, "Dampara");
+strcpy(h_address[41].emailAddress, "user11538@gmail.com");
+strcpy(h_address[41].phone, "01000014771");
+
+strcpy(h_address[42].location, "Lalkhanbazar");
+strcpy(h_address[42].emailAddress, "user19912@gmail.com");
+strcpy(h_address[42].phone, "01000001869");
+
+strcpy(h_address[43].location, "Kotowali");
+strcpy(h_address[43].emailAddress, "user26299@gmail.com");
+strcpy(h_address[43].phone, "01000025667");
+
+strcpy(h_address[44].location, "Bakalia");
+strcpy(h_address[44].emailAddress, "user9894@gmail.com");
+strcpy(h_address[44].phone, "01000017035");
+
+strcpy(h_address[45].location, "Ak Khan");
+strcpy(h_address[45].emailAddress, " user23811@gmail.com");
+strcpy(h_address[45].phone, "01000028703");
+
+strcpy(h_address[46].location, "Portarea");
+strcpy(h_address[46].emailAddress, "user30333@gmail.com");
+strcpy(h_address[46].phone, "01000031322");
+
+strcpy(h_address[47].location, "Halisohor");
+strcpy(h_address[47].emailAddress, "user4664@gmail.com");
+strcpy(h_address[47].phone, "01000015141");
+
+strcpy(h_address[1].location,"Muradpur");
+strcpy(h_address[1].emailAddress,"Aria11@gmail.com");
+strcpy(h_address[1].phone,"01690011616");
+
+strcpy(h_address[2].location,"Chawkbazar");
+strcpy(h_address[2].emailAddress,"Zephyr132@gmail.com");
+strcpy(h_address[2].phone,"01815855762");
+
+strcpy(h_address[3].location,"Baddarhat");
+strcpy(h_address[3].emailAddress,"Orion1113@gmail.com");
+strcpy(h_address[3].phone,"01897123931");
+
+strcpy(h_address[4].location,"GEC");
+strcpy(h_address[4].emailAddress,"Seraphina1171@gmail.com");
+strcpy(h_address[4].phone,"01715725635");
+
+strcpy(h_address[5].location,"Agrabad");
+strcpy(h_address[5].emailAddress,"Kairos777@gmail.com");
+strcpy(h_address[5].phone,"01890115622");
+
+strcpy(h_address[6].location,"khulshi");
+strcpy(h_address[6].emailAddress,"Luna999@gmail.com");
+strcpy(h_address[6].phone,"01872653210");
+
+strcpy(h_address[7].location,"");
+strcpy(h_address[7].emailAddress,"Daxton66@gmail.com");
+strcpy(h_address[7].phone,"01815888752");
+
+strcpy(h_address[8].location,"kutuali");
+strcpy(h_address[8].emailAddress,"Isolde117155@gmail.com");
+strcpy(h_address[8].phone,"01761324572");
+
+strcpy(h_address[9].location,"New market");
+strcpy(h_address[9].emailAddress,"Azura1187@gmail.com");
+strcpy(h_address[9].phone,"01611362712");
+
+strcpy(h_address[10].location,"Firinghee bazar");
+strcpy(h_address[10].emailAddress,"Thorne_kh@gmail.com");
+strcpy(h_address[10].phone,"01923917201");
+
+strcpy(h_address[11].location,"anderkilla");
+strcpy(h_address[11].emailAddress,"Marigold2@gmail.com");
+strcpy(h_address[11].phone,"01829142637");
+
+strcpy(h_address[12].location,"Pahartali");
+strcpy(h_address[12].emailAddress,"Atticus4637@gmail.com");
+strcpy(h_address[12].phone,"01666122334");
+
+strcpy(h_address[13].location,"Faujdharhat");
+strcpy(h_address[13].emailAddress,"Elara234@gmail.com");
+strcpy(h_address[13].phone,"01672345673");
+
+strcpy(h_address[14].location,"panchlaish");
+strcpy(h_address[14].emailAddress,"Caspian3744@gmail.com");
+strcpy(h_address[14].phone,"01762326723");
+
+strcpy(h_address[15].location,"Laliarhat");
+strcpy(h_address[15].emailAddress,"Evadne2233@gmail.com");
+strcpy(h_address[15].phone,"0167982334");
+
+strcpy(h_address[16].location,"agrabad");
+strcpy(h_address[16].emailAddress,"Jaxon7363@gmail.com");
+strcpy(h_address[16].phone,"01823727382");
+
+strcpy(h_address[17].location,"kumira");
+strcpy(h_address[17].emailAddress,"Selene777888@gmail.com");
+strcpy(h_address[17].phone,"01823273732");
+
+strcpy(h_address[18].location,"shitakundo");
+strcpy(h_address[18].emailAddress,"Calliope736@gmail.com");
+strcpy(h_address[18].phone,"01896237380");
+
+strcpy(h_address[19].location,"Tiger pass");
+strcpy(h_address[19].emailAddress,"Lysander7363@gmail.com");
+strcpy(h_address[19].phone,"01815781223");
+
+strcpy(h_address[20].location,"Chakbazar");
+strcpy(h_address[20].emailAddress,"Kellan_khan@gmail.com");
+strcpy(h_address[20].phone,"01815822633");
+
+strcpy(h_address[21].location,"Muradpur");
+strcpy(h_address[21].emailAddress,"Magnolia@gmail.com");
+strcpy(h_address[21].phone,"01672122526");
+
+strcpy(h_address[22].location,"hathazari");
+strcpy(h_address[22].emailAddress,"Zane001@gmail.com");
+strcpy(h_address[22].phone,"01890145267");
+
+strcpy(h_address[23].location,"Oxygen");
+strcpy(h_address[23].emailAddress,"Octavia0007@gmail.com");
+strcpy(h_address[23].phone,"01689028324");
+
+
 
     strcpy(u_address[1].address, "a.k._khan");
     u_address[1].lat2 = 22.359872002016623;
@@ -977,8 +1258,10 @@ part3:
         }
         else
             point = arrow(ch, 2);
+
         if (select_flag == 1)
             break;
+            
         key = point;
         system("cls");
     }
@@ -1010,8 +1293,8 @@ part3:
                 printf("(3).   Back\n\n");
                 horizontal(50, 10, 14, 23);
                 horizontal(50, 12, 14, 23);
-                gotostring(53, 11, 11);
-                printf(" SELECT(PRESS ENTER) ");
+                gotostring(52, 11, 11);
+                printf("SELECT(PRESS ENTER) ");
                 setcolor(10);
                 ch = getch();
 
@@ -1041,13 +1324,19 @@ part3:
 
             if (key1 == 1)
             {
+
             part5:
+                if (wrong4 == 0) goto part6;
+
+
+                if (wrong4 == 1)
+                {
                 select_flag = 0;
                 point = key2 = 1;
+                errorsound();
                 while (1)
                 {
-                    if (wrong4 == 1)
-                    {
+
                         system("cls");
                         vertical_left(50, 4, 14, 9);
                         vertical_right(72, 4, 14, 9);
@@ -1065,11 +1354,9 @@ part3:
                         printf("(3). Back\n");
                         horizontal(50, 10, 14, 23);
                         horizontal(50, 12, 14, 23);
-                        errorsound();
                         gotostring(53, 11, 11);
                         printf("SELECT(PRESS ENTER");
                         setcolor(10);
-                        // scanf("%d",&key2);keysound();
 
                         ch = getch();
 
@@ -1088,8 +1375,7 @@ part3:
 
                         system("cls");
                     }
-                    if (wrong4 == 0)
-                        goto part6;
+
                 }
                 if (key2 == 1)
                 {
@@ -1142,12 +1428,17 @@ part3:
                 }
                 if (flag5 == 0)
                 {
-                    while (1)
-                    {
+
 
                         /// part6a  customer log in part...
                         ///=============================================================================================
                     part6a:
+
+                    select_flag = 0;
+                    point = key10 = 1;
+                    errorsound();
+                    while(1)
+                    {
 
                         system("cls");
                         vertical_left(39, 4, 14, 10);
@@ -1156,22 +1447,34 @@ part3:
                         horizontal(39, 4, 13, 40);
                         horizontal(39, 6, 13, 40);
                         gotostring(55, 5, 11);
-                        printf("Log in :\n");
+                        printf("LOG IN :\n");
                         gotostring(40, 7, 12);
                         printf(" (There is no account for this number)\n");
-                        gotostring(40, 9, 15);
+                        gotostring(40, 9, selection(1));
                         printf("  (1). Try again\n");
-                        gotostring(40, 10, 15);
+                        gotostring(40, 10, selection(2));
                         printf("  (2). Back\n");
                         horizontal(39, 11, 14, 40);
                         horizontal(39, 13, 14, 40);
-                        errorsound();
-                        gotostring(40, 12, 11);
-                        printf("  Enter the key : ");
-                        setcolor(10);
 
-                        scanf("%d", &key10);
-                        keysound();
+                        gotostring(40, 12, 11);
+                        printf("         SELECT(PRESS ENTER)");
+                        setcolor(10);
+                        ch = getch();
+                        if(ch=='\r')
+                        {
+                            select_flag = 1;
+                            keysound();
+                        }
+                        else
+                            arrow(ch,2);
+
+                        if(select_flag == 1)
+                            break;
+
+                        key10 = point;
+                    }
+
                         if (key10 == 1)
                         {
                             system("cls");
@@ -1182,8 +1485,7 @@ part3:
                             system("cls");
                             goto part4;
                         }
-                        system("cls");
-                    }
+
                 }
 
                 /// part6b
@@ -1475,6 +1777,7 @@ part3:
                         system("cls");
                         select_flag = 0;
                         point = key9 = 1;
+                        errorsound();
                         while (1)
                         {
                             vertical_left(40, 4, 14, 10);
@@ -1492,10 +1795,10 @@ part3:
                             printf("(1) . Try again\n");
                             gotostring(43, 10, selection(2));
                             printf("(2) . Back\n");
-                            errorsound();
+
 
                             gotostring(42, 12, 11);
-                            printf("SELECT(PRESS ENTER)");
+                            printf("       SELECT(PRESS ENTER)");
                             setcolor(10);
                             // scanf("%d",&key9);keysound();
                             ch = getch();
@@ -1548,6 +1851,7 @@ part3:
                         int key35;
                         select_flag = 0;
                         point = key35 = 1;
+                        errorsound();
                         while (1)
                         {
                             vertical_left(43, 4, 14, 10);
@@ -1565,11 +1869,10 @@ part3:
                             printf("(1) . Try again\n");
                             gotostring(46, 10, selection(2));
                             printf("(2) . Back\n");
-                            errorsound();
                             gotostring(46, 12, 11);
                             printf("SELECT(PRESS ENTER)");
                             setcolor(10);
-                            // scanf("%d",&key35);keysound();
+
                             ch = getch();
 
                             if (ch == '\r')
@@ -1857,7 +2160,6 @@ part3:
 
                     gotostring(49, 5, 11);
                     printf("(You can't use this number)\n");
-                    // errorsound();
                     horizontal(48, 6, 13, 29);
                     gotostring(51, 7, selection(1));
                     printf("(1). Try again\n");
@@ -1929,7 +2231,6 @@ part3:
                     printf("(2). Back\n");
                     horizontal(48, 9, 14, 27);
                     horizontal(48, 11, 14, 27);
-                    // errorsound();
                     gotostring(53, 10, 11);
                     printf("SELECT(PRESS ENTER");
 
@@ -1997,7 +2298,6 @@ part3:
                         printf("(2). Back\n");
                         horizontal(48, 9, 14, 27);
                         horizontal(48, 11, 14, 27);
-                        errorsound();
                         gotostring(53, 10, 11);
                         printf(" SELECT(PRESS ENTER) ");
                         setcolor(10);
@@ -2216,7 +2516,7 @@ part3:
         {
             select_flag = 0;
             point = key12 = 1;
-
+            errorsound();
             while (1)
             {
                 system("cls");
@@ -2237,7 +2537,6 @@ part3:
                 printf("(3). Back\n");
                 horizontal(50, 10, 14, 23);
                 horizontal(50, 12, 14, 23);
-                // errorsound();
                 gotostring(53, 11, 11);
                 printf("SELECT(PRESS ENTER)");
 
@@ -2359,6 +2658,9 @@ part3:
                 goto part8c;
             }
         }
+        select_flag = 0;
+        point = key13 = 1;
+        errorsound();
         while (1)
         {
             system("cls");
@@ -2370,21 +2672,31 @@ part3:
             horizontal(43, 13, 14, 29);
             horizontal(43, 11, 14, 29);
             gotostring(54, 5, 11);
-            printf(" Log in");
+            printf(" LOG IN");
             gotostring(46, 7, 12);
             printf("   (Wrong Information)\n");
-            gotostring(46, 9, 15);
+            gotostring(46, 9, selection(1));
             printf("(1) . Try again\n");
-            gotostring(46, 10, 15);
+            gotostring(46, 10, selection(2));
             printf("(2) . Back\n");
-            errorsound();
             int key35;
             gotostring(46, 12, 11);
-            printf("Enter the key : ");
+            printf("  SELECT(PRESS ENTER)");
             setcolor(10);
-            scanf("%d", &key13);
-            keysound();
+            ch = getch();
+            if(ch=='\r')
+            {
+                select_flag = 1;
+                keysound();
+            }
+            else
+                arrow(ch,2);
 
+            if(select_flag == 1)
+                break;
+
+            key13 = point;
+        }
             if (key13 == 1)
             {
                 /// clear screen
@@ -2397,7 +2709,7 @@ part3:
                 system("cls");
                 goto part3;
             }
-        }
+
     }
     else
     {
@@ -3083,7 +3395,7 @@ part9:
                     if (key17 == 2)
                     {
                         /// clear screen
-                        clear(30);
+                        system("cls");
                         vertical_left(35, 4, 14, 8);
                         vertical_right(87, 4, 14, 8);
                         horizontal(35, 4, 13, 53);
@@ -3662,294 +3974,188 @@ part9:
         if (key3 == 8)
         {
             ///=====================================================================================
-            /// nearest hotel
-            /// part11d...
-        part11d:
+///nearest hotel
+///part11d...
+            part11d:
             system("cls");
 
-            while (1)
-            {
-                system("cls");
-                vertical_left(41, 5, 14, 4);
-                vertical_right(76, 5, 14, 4);
-                horizontal(41, 5, 13, 36);
-                horizontal(41, 7, 13, 36);
-                horizontal(41, 9, 14, 36);
-                gotostring(50, 6, 11);
-                printf("Nearest restaurant");
-                gotostring(42, 8, 7);
-                printf("Enter the range (kilometer): ");
-                scanf("%lf", &range);
-                range += .00001;
-                keysound();
-                system("cls");
-                /// part11e
+            vertical_left(41,5,14,4);
+            vertical_right(76,5,14,4);
+            horizontal(41,5,13,36);
+            horizontal(41,7,13,36);
+            horizontal(41,9,14,36);
+            gotostring(50,6,11);
+            printf("Nearest restaurant");
+            gotostring(42,8,7);
+            printf("Enter the range (kilometer): ");
+            scanf("%lf",&range);
+            range+=.00001;
+            keysound();
+            system("cls");
+///part11e
             part11e:
 
-                key21 = 1;
-                number = 1;
-                vertical_left(0, 1, 14, 1);
-                vertical_right(42, 1, 14, 1);
-                horizontal(0, 0, 13, 43);
-                horizontal(0, 2, 13, 43);
-                gotostring(1, 1, 11);
-                printf("Nearest restaurant in %.2lf km range", range);
-                for (int i = 1; i <= 66; i++)
+            key21=1;
+            number = 1;
+            vertical_left(0,1,14,1);
+            vertical_right(42,1,14,1);
+            horizontal(0,0,13,43);
+            horizontal(0,2,13,43);
+            gotostring(1,1,11);
+            printf("Nearest restaurant in %.2lf km range",range);
+            for(int i=1;i<=66;i++)
+            {
+                for(int j=1;j<=18;j++)
                 {
-                    for (int j = 1; j <= 18; j++)
+                    l2=g2=0;
+                    if(strcmp(cus[id1].address1 , u_address[j].address)==0)
                     {
-                        l2 = g2 = 0;
-                        if (strcmp(cus[id1].address1, u_address[j].address) == 0)
-                        {
-                            l2 = u_address[j].lat2;
-                            g2 = u_address[j].lon2;
-                            break;
-                        }
-                    }
-                    distance = l1 = g1 = 0;
-                    l1 = h_address[i].lat1;
-                    g1 = h_address[i].lon1;
-
-                    l1 = l1 * (3.1415 / 180);
-                    l2 = l2 * (3.1415 / 180);
-                    g1 = g1 * (3.1415 / 180);
-                    g2 = g2 * (3.1415 / 180);
-
-                    dlong = g2 - g1;
-
-                    dlat = l2 - l1;
-
-                    distance = pow((sin(dlat / 2)), 2) + cos(l1) * cos(l2) * pow((sin(dlong / 2)), 2);
-
-                    distance = 2 * atan2(sqrt(distance), sqrt(1 - distance));
-
-                    double R = 6371;
-
-                    distance = distance * R;
-
-                    if (range > distance)
-                    {
-                        sort_address[number] = i;
-                        sort_distance[number] = distance;
-                        number++;
+                        l2 = u_address[j].lat2;
+                        g2 = u_address[j].lon2;
+                        break;
                     }
                 }
+                distance = l1 = g1 = 0;
+                l1 = h_address[i].lat1;
+                g1 = h_address[i].lon1;
 
-                for (int i = 1; i < number; i++)
+                l1 = l1 * (  3.1415 / 180 );
+                l2 = l2 * (  3.1415 / 180 );
+                g1 = g1 * (  3.1415 / 180 );
+                g2 = g2 * (  3.1415 / 180 );
+
+                dlong = g2 - g1;
+
+                dlat = l2 - l1;
+
+
+                distance = pow((sin(dlat / 2)), 2) + cos(l1) * cos(l2) * pow((sin(dlong / 2)), 2);
+
+
+                distance = 2 * atan2(sqrt(distance),sqrt(1-distance));
+
+                double R = 6371;
+
+                distance = distance * R;
+
+                if(range > distance)
                 {
-                    for (int j = i + 1; j < number; j++)
-                    {
-                        if (sort_distance[i] > sort_distance[j])
-                        {
-                            temp = sort_address[i];
-                            sort_address[i] = sort_address[j];
-                            sort_address[j] = temp;
-
-                            temp = sort_distance[i];
-                            sort_distance[i] = sort_distance[j];
-                            sort_distance[j] = temp;
-                        }
-                    }
+                    sort_address[number] = i;
+                    sort_distance[number]=distance;
+                    number++;
                 }
-                setcolor(14);
-                if (number == 1)
-                    printf("(Not found)\n\n");
-                else
+
+            }
+
+            for(int i=1;i<number;i++)
+            {
+                for(int j=i+1;j<number;j++)
                 {
-                    gotoxy(46, 0);
-                    setcolor(9);
-                    for (int i = 0; i < 60; i++)
-                        printf("-");
+                  if(sort_distance[i]>sort_distance[j])
+                  {
+                      temp = sort_address[i];
+                      sort_address[i] = sort_address[j];
+                      sort_address[j] = temp;
 
-                    for (int i = 0; i < 27; i++)
-                    {
-                        gotoxy(45, i + 1);
-                        setcolor(9);
-                        printf("|");
-                    }
+                      temp = sort_distance[i];
+                      sort_distance[i] = sort_distance[j];
+                      sort_distance[j] = temp;
+                  }
+                }
+            }
+            setcolor(14);
+            if(number ==1)
+                printf("(Not found)\n\n");
+            else
+            {
+            while(1)
+            {
 
-                    gotoxy(46, 28);
-                    setcolor(9);
-                    for (int i = 0; i < 60; i++)
-                        printf("-");
 
-                    for (int i = 0; i < 27; i++)
-                    {
-                        gotoxy(106, i + 1);
-                        setcolor(9);
-                        printf("|");
-                    }
+                vertical_left(0,1,14,1);
+                vertical_right(42,1,14,1);
+                horizontal(0,0,13,43);
+                horizontal(0,2,13,43);
+                gotostring(1,1,11);
+                printf("Nearest restaurant in %.2lf km range",range);
+                char h_line = 254;
 
-                    gotoxy(46, 14);
-                    setcolor(9);
-                    for (int i = 0; i < 60; i++)
-                        printf("-");
+                gotoxy(50,0);setcolor(14);
+                for(int i=0;i<61;i++)
+                    printf("%c",h_line);
 
-                    for (int i = 0; i < 27; i++)
-                    {
-                        gotoxy(76, i + 1);
-                        setcolor(9);
-                        printf("|");
-                    }
+                for(int i=0;i<22;i++)
+                {
+                    char v_line = 221;
+                    gotoxy(50,i+1);setcolor(14);
+                    printf("%c",v_line);
+                }
 
-                    gotoxy(76, 1);
-                    setcolor(10);
-                    printf("^");
+                for(int i=0;i<22;i++)
+                {
+                    char v_line = 222;
+                    gotoxy(110,i+1);setcolor(14);
+                    printf("%c",v_line);
+                }
 
-                    gotoxy(75, 0);
-                    setcolor(10);
-                    printf("(N)");
+                gotoxy(50,22);setcolor(14);
+                for(int i=0;i<61;i++)
+                    printf("%c",h_line);
 
-                    gotoxy(76, 27);
-                    setcolor(10);
-                    printf("v");
+                gotoxy(50,4);setcolor(14);
+                for(int i=0;i<61;i++)
+                    printf("%c",h_line);
 
-                    gotoxy(75, 28);
-                    setcolor(10);
-                    printf("(S)");
-
-                    gotoxy(44, 14);
-                    setcolor(10);
-                    printf("(W)");
-
-                    gotoxy(105, 016);
-                    setcolor(10);
-                    printf("(E)");
-
-                    gotoxy(104, 14);
-                    setcolor(10);
-                    printf(">");
-
-                    gotoxy(47, 14);
-                    setcolor(10);
-                    printf("<");
-
-                    gotoxy(75, 14);
-                    setcolor(13); /// middle 76,12
-                    printf("(A)");
-
-                    gotoxy(0, 2);
-                    for (int i = 1; i < number; i++)
-                    {
-
-                        if (i == 10)
+                gotoxy(0,2);
+                for(int i=1;i<number;i++)
+                {
+                        if(i==10)
                             break;
 
                         index1 = sort_address[i];
-                        gotostring(1, (1 + (3 * i)) - 1, 7);
-                        printf("(%d) . %s", i, h_address[index1].address);
-                        gotostring(1, (1 + (3 * i)), 10);
+                        gotostring(1,(1+(3*i))-1,7);
+                        printf("(%d) . %s",i , h_address[index1].address);
+                        gotostring(1,(1+(3*i)),10);
                         printf("Distance : %.2lf km\n", sort_distance[i]);
-                        vertical_left(0, (1 + (3 * i)) - 1, 14, 2);
-                        vertical_right(42, (1 + (3 * i)) - 1, 14, 2);
-                        horizontal(0, (1 + (3 * i)) + 1, 14, 43);
-                    }
+                        vertical_left(0,(1+(3*i))-1,14,2);
+                        vertical_right(42,(1+(3*i))-1,14,2);
+                        horizontal(0,(1+(3*i))+1,14,43);
                 }
-                setcolor(11);
-                printf("\n\n(-1). Back\n");
-                printf("(-2). Try again\n");
-                printf("Enter the key : ");
-                setcolor(10);
-                scanf("%d", &key21);
-                keysound();
 
-                system("cls");
 
-                index1 = sort_address[key21];
-                gotoxy(45, 29);
-                setcolor(11);
-                printf("(A) = %s , (B) = %s", cus[id1].address1, h_address[index1].address);
+            setcolor(11);
+            printf("\n\n(-1). Back\n");
+            printf("(-2). Try again\n");
+            printf("Enter the key : ");setcolor(10);
+            scanf("%d",&key21);keysound();
 
-                if (key21 >= 1 && key21 < number)
+            system("cls");
+
+
+            index1 = sort_address[key21];
+
+                if(key21>=1 && key21<number)
                 {
-
-                    for (int j = 1; j <= 18; j++)
-                    {
-                        if (strcmp(cus[id1].address1, u_address[j].address) == 0)
-                        {
-                            l2 = u_address[j].lat2;
-                            g2 = u_address[j].lon2;
-                            break;
-                        }
-                    }
-
-                    index1 = sort_address[key21];
-
-                    l1 = h_address[index1].lat1;
-                    g1 = h_address[index1].lon1;
-
-                    int x1 = l1 * 10000;
-                    int x2 = l2 * 10000;
-                    int y1 = g1 * 10000;
-                    int y2 = g2 * 10000;
-
-                    setcolor(10);
-                    sum = cordinate(distance);
-                    if (x1 < x2 && y1 < y2)
-                    {
-                        gotoxy(75 - sum, 14 - sum); /// middle 76,14
-                        printf("(B)");
-                    }
-                    else if (x1 == x2 && y1 < y2)
-                    {
-                        gotoxy(75, 14 + sum); /// middle 76,14
-                        printf("(B)");
-                    }
-                    else if (x1 < x2 && y1 > y2)
-                    {
-                        gotoxy(75 - sum, 14 + sum); /// middle 76,14
-                        printf("(B)");
-                    }
-                    else if (x1 < x2 && y1 == y2)
-                    {
-                        gotoxy(75 - sum, 14); /// middle 76,14
-                        printf("(B)");
-                    }
-                    else if (x1 == x2 && y1 > y2)
-                    {
-                        gotoxy(75, 14 - sum); /// middle 76,14
-                        printf("(B)");
-                    }
-                    else if (x1 > x2 && y1 > y2)
-                    {
-                        gotoxy(75 + sum, 14 - sum); /// middle 76,14
-                        printf("(B)");
-                    }
-                    else if (x1 > x2 && y1 == y2)
-                    {
-                        gotoxy(75 + sum, 14); /// middle 76,14
-                        printf("(B)");
-                    }
-                    else if (x1 > x2 && y1 < y2)
-                    {
-                        gotoxy(75 + sum, 14 - sum); /// middle 76,14
-                        printf("(B)");
-                    }
-                    else
-                    {
-                        goto part11e;
-                    }
-
-                    goto part11e;
+                   HotelData(sort_distance[key21],u_address[id1].address,h_address[index1].address,h_address[index1].lat1,h_address[index1].lon1,h_address[index1].emailAddress,h_address[index1].phone,h_address[index1].location);
                 }
-                if (key21 == -1)
+                else if(key21==-1)
                 {
-                    system("cls");
                     goto part9;
                 }
-                if (key21 == -2)
+                else if(key21==-2)
                 {
-                    system("cls");
                     goto part11d;
                 }
                 else
                 {
-                    system("cls");
-
                     goto part11e;
                 }
-                system("cls");
             }
+            }
+
+
+
+
         }
         if (key3 == 9)
         {
@@ -4142,11 +4348,10 @@ part9:
                 keysound();
                 getchar();
 
-                if (key33 >= 1 && key33 <= user)
+                if (key33 >= 1 && key33 <= ouser)
                 {
                     cmessage[key33].point = 0;
 
-                    remove_string(phone12);
                     strcpy(phone12, own[key33].phone);
                     strcat(phone12, "omessage.txt");
                     p = fopen(phone12, "a+");
@@ -5111,12 +5316,10 @@ part12a:
 
                 ascii5 = 219;
 
-                int flag_level = 0;
                 int level = round(per / 10.0);
 
-                for (int i = 0; i <= level; i++)
+                for (int i = 0; i <= level; i++) ///good one (green)
                 {
-                    flag_level = 1;
                     box = 49 + (i * 2);
                     Sleep(40);
                     gotoxy(49 + (i * 2), 14);
@@ -5124,18 +5327,16 @@ part12a:
                     printf("%c%c", ascii5, ascii5);
                 }
 
-                flag_level = 0;
                 gotoxy(box + 2, 14);
                 printf("(%.1lf%%)", per);
 
-                for (int i = 0; i <= (10 - level); i++)
+                for (int i = 0; i <= (10 - level); i++) ///bad one (red)
                 {
                     box = 49 + (i * 2);
                     Sleep(40);
                     gotoxy(49 + (i * 2), 16);
                     setcolor(12);
                     printf("%c%c", ascii5, ascii5);
-                    flag_level = 1;
                 }
 
                 gotoxy(box + 2, 16);
@@ -5246,7 +5447,7 @@ part12a:
                     }
                     fclose(p);
 
-                    /// PASTE KORTASI
+
                     remove_string(phone20);
                     strcpy(phone20, own[oid].phone);
                     strcat(phone20, cus[key33].phone);
